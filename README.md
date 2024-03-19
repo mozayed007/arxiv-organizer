@@ -16,7 +16,7 @@ This project requires the following packages:
 You can install these packages using pip:
 
 ```bash
- pip install -r requirements.txt
+pip install -r requirements.txt
 ```
 
 This will install all the dependencies listed in the `requirements.txt` file.
@@ -26,13 +26,13 @@ This will install all the dependencies listed in the `requirements.txt` file.
 To use `arxiv-organizer`, you can run the `__main__.py` script with the following command:
 
 ```bash
-python -m src.arxiv_organizer
+arxiv_organizer
 ```
 
 You can also use the `--update-categories` flag to update the categories, and the `--directory` flag to specify the directory to process:
 
 ```bash
-python -m src.arxiv_organizer --update-categories --directory your_directory
+arxiv_organizer --update-categories --directory your_directory
 ```
 
 ## Installation
