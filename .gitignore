@@ -160,3 +160,4 @@ cython_debug/
 #.idea/
 arxiv_organizer.egg-info/
 src\arxiv_organizer\__pycache__
+src\arxiv_organizer.egg-info

@@ -6,11 +6,11 @@ setup(
     description='A package to organize arXiv papers',
     author='MoZayed',
     License = 'MIT',
-    url='https://github.com/mozayed007/arxiv_organizer',  # if you have a github repo
+    url='https://github.com/mozayed007/arxiv-organizer',  
     classifiers=[
         'Development Status :: 3 - Alpha',
         'Intended Audience :: Science/Research',
-        'License :: OSI Approved :: MIT License',  # if you're using the MIT license
+        'License :: OSI Approved :: MIT License',  
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
