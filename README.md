@@ -15,24 +15,25 @@ This project requires the following packages:
 
 You can install these packages using pip:
 
-    ```bash
-    pip install -r requirements.txt
-    ```
+```bash
+ pip install -r requirements.txt
+```
+
 This will install all the dependencies listed in the `requirements.txt` file.
 
 ## Usage
 
 To use `arxiv-organizer`, you can run the `__main__.py` script with the following command:
 
-        ```bash
-        python -m src.arxiv_organizer
-        ```
+```bash
+python -m src.arxiv_organizer
+```
 
 You can also use the `--update-categories` flag to update the categories, and the `--directory` flag to specify the directory to process:
 
-        ```bash
-        python -m src.arxiv_organizer --update-categories --directory your_directory
-        ```
+```bash
+python -m src.arxiv_organizer --update-categories --directory your_directory
+```
 
 ## Installation
 
@@ -40,22 +41,22 @@ To install `arxiv-organizer`, you need to have Python installed on your machine.
 
 1. Clone the repository:
 
-        ```bash
-        git clone https://github.com/mozayed007/arxiv-organizer.git
-        ```
+```bash
+git clone https://github.com/mozayed007/arxiv-organizer.git
+```
 
 2. Navigate to the project directory:
 
-        ```bash
-        cd arxiv-organizer
-        ```
+```bash
+cd arxiv-organizer
+```
 
 3. Install the package:
 
-        ```bash
-        cd src
-        python setup.py install
-        ```
+```bash
+cd src
+python setup.py install
+```
 
 ## Contributing
 
