@@ -1,2 +1,0 @@
-[console_scripts]
-arxiv-organizer = arxiv_organizer.__main__:process_papers
