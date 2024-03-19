@@ -1,8 +1,8 @@
 # arxiv-organizer
 
-`arxiv-organizer` is a standalone initial version subpackage for a larger project that aims to leverage Language Model Learning (LLMs) and classification techniques in the future.
+Because of the ramping speed of publications, I thought of automating the organization of my research readings. This is just the initial version of a larger project that will leverage Large Language Models (LLMs) and NLP classification techniques in the future. I also plan to integrate it with the Fully Local Chat Over Documents project I talked about a few days ago.
 
-This subpackage serves as a vanilla organizer for academic papers from the arXiv database. It uses Python's `re.match` for pattern matching and the arXiv API for fetching data.
+`arxiv-organizer` is a Python package that helps you organize academic papers from the arXiv database. It uses pattern matching and the arXiv API for fetching data.
 
 ## Requirements
 
@@ -23,13 +23,7 @@ This will install all the dependencies listed in the `requirements.txt` file.
 
 ## Usage
 
-To use `arxiv-organizer`, you can run the `__main__.py` script with the following command:
-
-```bash
-arxiv_organizer
-```
-
-You can also use the `--update-categories` flag to update the categories of articles (must be done initially for the first time), and the `--directory` flag to specify the directory to process:
+After installing the package, navigate to the directory where your papers are downloaded and simply run `arxiv-organizer` from the terminal. You can also update categories JSON scraped from arxiv category taxonomy using Chrome webdriver and specify the directory to process:
 
 ```bash
 arxiv_organizer --update-categories --directory your_directory
@@ -37,7 +31,7 @@ arxiv_organizer --update-categories --directory your_directory
 
 ## Installation
 
-To install `arxiv-organizer`, you need to have Python installed on your machine. Then, follow these steps:
+Installation is easy. You'll need Python installed on your machine, and Chrome webdriver (will try to improve that to be more generic in future versions). Just clone the repository and install the package:
 
 1. Clone the repository:
 
@@ -60,4 +54,8 @@ python setup.py install .
 
 ## Contributing
 
-We welcome contributions to `arxiv-organizer`! If you have a feature request, bug report, or want to contribute code, please open an issue or pull request on our [GitHub repository](https://github.com/mozayed007/arxiv-organizer).
+I welcome any contributions, feature requests, or bug reports. Let's make academic research more organized together! Check out the project on GitHub: [arxiv-organizer](https://github.com/mozayed007/arxiv-organizer)
+
+## License
+
+[MIT License](https://github.com/mozayed007/arxiv-organizer/blob/main/LICENSE)
