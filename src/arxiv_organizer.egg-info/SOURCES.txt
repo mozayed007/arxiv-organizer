@@ -1,0 +1,12 @@
+setup.py
+arxiv_organizer/__init__.py
+arxiv_organizer/__main__.py
+arxiv_organizer/arxiv_mv.py
+arxiv_organizer/arxiv_organize.py
+arxiv_organizer.egg-info/PKG-INFO
+arxiv_organizer.egg-info/SOURCES.txt
+arxiv_organizer.egg-info/dependency_links.txt
+arxiv_organizer.egg-info/entry_points.txt
+arxiv_organizer.egg-info/requires.txt
+arxiv_organizer.egg-info/top_level.txt
+arxiv_organizer/utils/categories.json
