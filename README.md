@@ -29,7 +29,7 @@ To use `arxiv-organizer`, you can run the `__main__.py` script with the followin
 arxiv_organizer
 ```
 
-You can also use the `--update-categories` flag to update the categories, and the `--directory` flag to specify the directory to process:
+You can also use the `--update-categories` flag to update the categories of articles (must be done initially for the first time), and the `--directory` flag to specify the directory to process:
 
 ```bash
 arxiv_organizer --update-categories --directory your_directory
