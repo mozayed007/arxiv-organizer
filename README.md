@@ -55,7 +55,7 @@ cd arxiv-organizer
 
 ```bash
 cd src
-python setup.py install
+python setup.py install .
 ```
 
 ## Contributing
