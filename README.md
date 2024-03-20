@@ -1,6 +1,6 @@
 # arxiv-organizer
 
-Because of the ramping speed of publications, I thought of automating the organization of my research readings. This is just the initial version of a larger project that will leverage Large Language Models (LLMs) and NLP classification techniques in the future. I also plan to integrate it with the [Fully Local Chat Over Documents](https://github.com/jacoblee93/fully-local-pdf-chatbot) project.
+Because of the ramping speed of publications, I thought of automating the organization of my research readings. This is just the initial version of a larger project that will leverage Large Language Models (LLMs) and NLP classification techniques in future versions instead of the categorization structure based on the [arxiv API python wrapper](https://github.com/lukasschwab/arxiv.py) to be more advanced using LLM-based categorization. I also plan to integrate it with the [Fully Local Chat Over Documents](https://github.com/jacoblee93/fully-local-pdf-chatbot) project in future versions.
 
 `arxiv-organizer` is a Python package that helps you organize academic papers from the arXiv database. It uses pattern matching and the arXiv API for fetching data.
 
