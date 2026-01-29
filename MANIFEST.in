@@ -1,0 +1,8 @@
+include README.md
+include LICENSE
+include CHANGELOG.md
+include EXAMPLES.md
+include .env.example
+include requirements.txt
+recursive-include docs *.md
+recursive-include src/arxiv_organizer/utils *.json
