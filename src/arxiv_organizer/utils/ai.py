@@ -1,5 +1,6 @@
+import re
 import google.generativeai as genai
-from typing import List, Dict
+from typing import List, Dict, Optional
 import logging
 import json
 import time
@@ -18,7 +19,7 @@ class RateLimiter:
         self.last_call = time.time()
 
 class GeminiClient:
-    def __init__(self, api_key: str):
+    def __init__(self, api_key: Optional[str]):
         self.logger = logging.getLogger(__name__)
         self.rate_limiter = RateLimiter(calls_per_minute=15) # ~1 call every 4s
         
@@ -64,16 +65,15 @@ class GeminiClient:
             response = self.model.generate_content(prompt)
             text = response.text.strip()
             # Clean up markdown code blocks if present
-            if text.startswith("```json"):
-                text = text[7:-3]
-            elif text.startswith("```"):
-                text = text[3:-3]
+            match = re.search(r'```(?:json)?\s*([\s\S]*?)\s*```', text)
+            if match:
+                text = match.group(1)
             
             selected_ids = json.loads(text)
             return selected_ids
         except Exception as e:
-            self.logger.error(f"Gemini Judge failed: {e}")
-            return []
+            self.logger.error(f"Gemini Judge failed: {e}. Returning all papers as fallback.")
+            return [p.id for p in papers]
 
     def analyze_paper(self, paper: PaperMetadata, topics: List[str] = None) -> Dict:
         """
@@ -106,12 +106,10 @@ class GeminiClient:
         try:
             response = self.model.generate_content(prompt)
             text = response.text.strip()
-            if text.startswith("```json"):
-                text = text[7:-3]
-            elif text.startswith("```"):
-                text = text[3:-3]
+            match = re.search(r'```(?:json)?\s*([\s\S]*?)\s*```', text)
+            if match:
+                text = match.group(1)
             return json.loads(text)
         except Exception as e:
             self.logger.error(f"Gemini Analysis failed: {e}")
             return {}
-

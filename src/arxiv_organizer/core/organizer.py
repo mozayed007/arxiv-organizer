@@ -5,10 +5,10 @@ import re
 import logging
 import json
 import time
-import importlib.resources
 import arxiv
 from tqdm import tqdm
 from datetime import datetime
+from typing import List
 from ..models import OrganizerConfig, GlobalConfig, PaperMetadata
 from ..utils.ai import GeminiClient
 
@@ -30,17 +30,13 @@ class ArxivOrganizer:
     def _setup_logging(self):
         logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-    def _load_categories(self):
-        try:
-            categories_file = importlib.resources.files('arxiv_organizer').joinpath('utils', 'categories.json')
-            if not categories_file.exists():
-                 self.logger.warning("categories.json not found.")
-                 return {}
-            with open(categories_file, 'r') as f:
-                return json.load(f)
-        except Exception as e:
-            self.logger.error(f"Failed to load categories: {e}")
+    def _load_categories(self) -> dict:
+        categories_file = Path(__file__).parent.parent / 'utils' / 'categories.json'
+        if not categories_file.exists():
+            self.logger.warning("categories.json not found, using empty categories map")
             return {}
+        with open(categories_file, 'r') as f:
+            return json.load(f)
 
     def _load_library(self):
         if self.library_file.exists():
@@ -64,7 +60,7 @@ class ArxivOrganizer:
         # Find PDFs in base_dir, excluding the arxiv/ subdirectory
         all_pdfs = []
         for pdf in self.base_dir.glob("*.pdf"):
-            if re.match(r'\d{4}\.\d{5}(v\d+)?\.pdf', pdf.name):
+            if re.match(r'\d{4}\.\d{4,5}(v\d+)?\.pdf', pdf.name):
                 all_pdfs.append(pdf)
         
         # Filter out already indexed papers if the file still exists
@@ -97,17 +93,17 @@ class ArxivOrganizer:
         self._save_library()
         self.logger.info("Organization complete.")
 
-    def _process_batch(self, pdf_batch: list[Path]):
+    def _process_batch(self, pdf_batch: List[Path]):
         # Extract IDs
         paper_ids = [pdf.stem for pdf in pdf_batch]
         pdf_map = {pdf.stem: pdf for pdf in pdf_batch}
         
-        try:
-            # Fetch metadata for the whole batch
-            search = arxiv.Search(id_list=paper_ids)
-            results = list(search.results())
-            
-            for result in tqdm(results, desc="Processing Batch"):
+        # Fetch metadata for the whole batch
+        search = arxiv.Search(id_list=paper_ids)
+        results = list(search.results())
+        
+        for result in tqdm(results, desc="Processing Batch"):
+            try:
                 paper_id = result.entry_id.split('/')[-1]
                 pdf_path = pdf_map.get(paper_id)
                 
@@ -124,7 +120,7 @@ class ArxivOrganizer:
                     updated=result.updated,
                     primary_category=result.primary_category,
                     categories=result.categories,
-                    pdf_url=result.pdf_url,
+                    pdf_url=result.pdf_url or "",
                     doi=result.doi
                 )
 
@@ -140,6 +136,7 @@ class ArxivOrganizer:
                 new_path = self.arxiv_dir / new_filename
                 
                 if new_path.exists():
+                    self.logger.warning(f"Overwriting existing file at {new_path}")
                     new_path.unlink()
                 
                 # Move to 'arxiv' folder first (renamed)
@@ -163,12 +160,13 @@ class ArxivOrganizer:
                     'custom_topic': paper.custom_topic
                 }
 
-        except Exception as e:
-            self.logger.error(f"Batch processing failed: {e}")
+            except Exception as e:
+                self.logger.error(f"Batch processing failed: {e}")
+                continue
 
     def _get_new_filename(self, paper: PaperMetadata, paper_id: str) -> str:
-        author = paper.authors[0].split(' ')[-1]
-        clean_title = ''.join(re.sub(r'[^\w]', ' ', paper.title).title().split(' ')[:3])
+        author = paper.authors[0].split()[-1] if paper.authors else "Unknown"
+        clean_title = ''.join(re.sub(r'[^\w]', ' ', paper.title).title().split()[:3])
         return f"{author}_{clean_title}_{paper_id}.pdf"
 
     def _organize_into_category(self, file_path: Path, paper: PaperMetadata) -> Path:
@@ -185,6 +183,7 @@ class ArxivOrganizer:
         dest_path = dest_dir / file_path.name
         
         if dest_path.exists():
+            self.logger.warning(f"Destination already exists, skipping move: {dest_path}")
             file_path.unlink()
             return dest_path
         else:

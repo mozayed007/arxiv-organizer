@@ -35,7 +35,9 @@ def process_papers():
     global_config = GlobalConfig(_env_file=args.env_file)
 
     if args.update_categories:
-        categories.scrape_categories()
+        if hasattr(args, 'download') and args.download:
+            print("Warning: --update-categories ignores all other flags.")
+        categories.update_categories()
         return
 
     base_dir = Path(args.directory).resolve()

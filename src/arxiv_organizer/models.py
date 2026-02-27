@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, AwareDatetime
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from typing import List, Optional, Dict
 from datetime import datetime
@@ -13,8 +13,8 @@ class PaperMetadata(BaseModel):
     title: str
     authors: List[str]
     summary: str
-    published: datetime
-    updated: datetime
+    published: AwareDatetime
+    updated: AwareDatetime
     primary_category: str
     categories: List[str]
     pdf_url: str

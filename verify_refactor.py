@@ -8,7 +8,7 @@ from pathlib import Path
 import shutil
 import tempfile
 import json
-from datetime import datetime
+from datetime import datetime, timezone
 
 from arxiv_organizer.core.organizer import ArxivOrganizer
 from arxiv_organizer.core.downloader import ArxivDownloader
@@ -44,8 +44,8 @@ class TestRefactoredOrganizer(unittest.TestCase):
         mock_result.primary_category = "cs.AI"
         mock_result.categories = ["cs.AI"]
         mock_result.summary = "Abstract"
-        mock_result.published = datetime.now()
-        mock_result.updated = datetime.now()
+        mock_result.published = datetime.now(timezone.utc)
+        mock_result.updated = datetime.now(timezone.utc)
         mock_result.pdf_url = "http://arxiv.org/pdf/2101.00001"
         mock_result.doi = None
         
@@ -112,8 +112,8 @@ class TestModels(unittest.TestCase):
             title="Test Paper",
             authors=["John Doe", "Jane Smith"],
             summary="Test abstract",
-            published=datetime.now(),
-            updated=datetime.now(),
+            published=datetime.now(timezone.utc),
+            updated=datetime.now(timezone.utc),
             primary_category="cs.AI",
             categories=["cs.AI", "cs.LG"],
             pdf_url="http://arxiv.org/pdf/2101.00001"

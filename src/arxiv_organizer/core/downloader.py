@@ -2,7 +2,7 @@ import arxiv
 import logging
 from pathlib import Path
 from typing import List, Optional
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import time
 from tqdm import tqdm
 from ..models import DownloadConfig, PaperMetadata, GlobalConfig
@@ -20,9 +20,10 @@ class ArxivDownloader:
         self.logger.info(f"Searching arXiv with query: {query}")
 
         try:
+            fetch_count = download_config.max_results * 2 if download_config.period != "all" else download_config.max_results
             search = arxiv.Search(
                 query=query,
-                max_results=download_config.max_results * 2, # Fetch more to allow for filtering
+                max_results=fetch_count,
                 sort_by=arxiv.SortCriterion.SubmittedDate
             )
             
@@ -86,8 +87,9 @@ class ArxivDownloader:
         if not days:
             return True
             
-        cutoff = datetime.now(result.published.tzinfo) - timedelta(days=days)
-        return result.published >= cutoff
+        cutoff = datetime.now(timezone.utc) - timedelta(days=days)
+        published = result.published.replace(tzinfo=timezone.utc) if result.published.tzinfo is None else result.published
+        return published >= cutoff
 
     def _to_metadata(self, result) -> PaperMetadata:
         return PaperMetadata(
@@ -99,7 +101,7 @@ class ArxivDownloader:
             updated=result.updated,
             primary_category=result.primary_category,
             categories=result.categories,
-            pdf_url=result.pdf_url,
+            pdf_url=result.pdf_url or "",
             doi=result.doi
         )
 

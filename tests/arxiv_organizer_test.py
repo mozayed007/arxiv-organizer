@@ -5,7 +5,7 @@ import shutil
 import tempfile
 import json
 from pathlib import Path
-from datetime import datetime
+from datetime import datetime, timezone
 
 from arxiv_organizer.core.organizer import ArxivOrganizer
 from arxiv_organizer.models import OrganizerConfig, GlobalConfig
@@ -47,8 +47,8 @@ class TestArxivOrganizer(unittest.TestCase):
         mock_result.primary_category = "cs.AI"
         mock_result.categories = ["cs.AI"]
         mock_result.summary = "This is a test abstract."
-        mock_result.published = datetime.now()
-        mock_result.updated = datetime.now()
+        mock_result.published = datetime.now(timezone.utc)
+        mock_result.updated = datetime.now(timezone.utc)
         mock_result.pdf_url = "http://arxiv.org/pdf/2101.00001"
         mock_result.doi = None
         
@@ -94,7 +94,7 @@ class TestArxivOrganizer(unittest.TestCase):
                 "title": "Test Paper Title",
                 "authors": ["John Doe"],
                 "category": "cs.AI",
-                "updated_at": datetime.now().isoformat()
+                "updated_at": datetime.now(timezone.utc).isoformat()
             }
         }
         with open(arxiv_dir / "library.json", 'w') as f:
